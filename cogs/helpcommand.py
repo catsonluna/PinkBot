@@ -24,7 +24,7 @@ class HelpCommand(commands.Cog):
                         value=f">BotInfo \n>UserInfo \n >suggest and then write the suggestion \n>dm your message here (can be only used in dms with PinkBot, this will send a message to PinkBots staff team) \n>links",
                         inline=False)
         embed.add_field(name="Fun commands:",
-                        value=f">rostme \n>coin \n>rps + your choice(rock, paper or scissors) \n>8ball \n>crab + text",
+                        value=f">rostme \n>coin \n>8ball \n>crab + text \n>dabon @mention the person",
                         inline=False)
         embed.add_field(name="Photo commands:",
                         value=f"Removed until the photo command works",

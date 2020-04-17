@@ -3,9 +3,10 @@ import asyncio
 import discord
 import datetime
 import discord.utils
+from discord import guild
 from discord.ext import commands
 
-from main import bot, BlacklistedUsers
+from main import bot, BlacklistedUsers, PinkBotPS
 
 
 class BotInfo(commands.Cog):
@@ -95,6 +96,17 @@ class BotInfo(commands.Cog):
         embed.add_field(name="GitHub:", value="[here](https://github.com/pinkulu/pinkbot)", inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command(name="partner")
+    async def partner(self, ctx):
+        guild = ctx.guild
+        color = ctx.author.color
+        embed = discord.Embed(title='PinkBot partner info', colour=color, timestamp=datetime.datetime.utcnow())
+        embed.add_field(name="Info:", value=f"PinkBot partner server is a server that gets some advantages from PinkBot, if you want to be a PinkBot partner server join the discord here and dm me or something like that so we can discus it [here](https://discord.gg/TUkcgWt)", inline=False)
+        embed.add_field(name="Advantages:", value=f"at the moment there are no advantages, but there's gonna be some soon ;)", inline=False)
+        partnered = 'This server is a PinkBot partner' if guild.id in PinkBotPS else 'This server isnt a PinkBot partner'
+        embed.add_field(name="This server:", value=partnered, inline=False)
+
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(BotInfo(bot))

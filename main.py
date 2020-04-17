@@ -9,24 +9,28 @@ def getJSON(filePathAndName):
         return json.load(fp)
 
 
-myObj = getJSON('./private.json')
+private = getJSON('./private.json')
 
-AdminList = myObj.get("AdminList")
+AdminList = private.get("AdminList")
 
-BlacklistedUsers = myObj.get("BlacklistedUsers")
+BlacklistedUsers = private.get("BlacklistedUsers")
 
-PinkBotStaff = myObj.get("PinkBotStaff")
+PinkBotStaff = private.get("PinkBotStaff")
 
-PinkBotContributors = myObj.get("PinkBotContributors")
+PinkBotContributors = private.get("PinkBotContributors")
 
-KSoft_api = myObj.get("KSoft_api")
+KSoft_api = private.get("KSoft_api")
 
-BotToken = myObj.get("BotToken")
+BotToken = private.get("BotToken")
+
+PinkBotPS = private.get("PinkBotPartnerServers")
+
+PinkBotPSC = private.get("PinkBotPartnerChats")
 
 
 def get_prefix(bot, message):
     if message.author.id in AdminList:
-        prefixes = ['pinkdev ', "?"]
+        prefixes = ['pinkdev ']
     else:
         prefixes = []
 
@@ -40,10 +44,11 @@ initial_extensions = [
     'cogs.privatecommands',
     'cogs.mod',
     'cogs.photo',
-    'cogs.userinfo',
+    'cogs.info',
     'cogs.helpcommand',
     'cogs.pinkbotserver',
-    'cogs.games'
+    'cogs.games',
+    'cogs.partnerThings'
 ]
 
 bot = commands.Bot(command_prefix=get_prefix, description='yes')
@@ -60,7 +65,8 @@ async def on_ready():
     print(f'Y-you tu-urned mwe on successfully daddy uwu, im looking at')
     print(bot.cogs)
     print(len(bot.guilds))
-    print(AdminList)
+
+
 
 @bot.event
 async def on_member_join(member):

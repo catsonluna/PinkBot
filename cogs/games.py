@@ -76,19 +76,8 @@ class Games(commands.Cog):
         await ctx.send(coin)
 
     @commands.command()
-    async def rps(self, ctx, arg1: str = None):
-        choices = ('Rock', 'Paper', 'Scissors')
-        rps = random.choice(choices)
-        if arg1 is None:
-            await ctx.send("please say rock paper or scissors")
-        elif arg1 == "rock" or "paper" or "scissors" or "Rock" or "Paper" or "Scissors":
-            color = ctx.author.color
-            member = ctx.message.author
-            embed = discord.Embed(title=f'Rock, paper, scissors with {member}', colour=color,
-                                  timestamp=datetime.datetime.utcnow())
-            embed.add_field(name=f"{member} choice:", value=f'{arg1}', inline=False)
-            embed.add_field(name="Bots choice:", value=f"{rps}", inline=False)
-            await ctx.send(embed=embed)
+    async def dabon(self, ctx, member: discord.Member):
+        await ctx.send(f"<:Dab:700667528976007308> {member.mention} <:Dab:700667528976007308> got <:Dab:700667528976007308> dabbed <:Dab:700667528976007308> on <:Dab:700667528976007308>")
 
     @commands.command(aliases=['8ball'])
     async def _8ball(self, ctx, *, question):
@@ -120,7 +109,7 @@ class Games(commands.Cog):
         message = discord.utils.escape_mentions(crabswag)
         message = message.split(' ')
         message = ':crab:'.join(message)
-        await ctx.send(message + ':crab:')
+        await ctx.send(":crab:" + message + ':crab:')
 
 
 def setup(bot):

@@ -4,7 +4,7 @@ import discord
 
 from discord.ext import commands
 
-from main import BlacklistedUsers, AdminList, PinkBotStaff, PinkBotContributors
+from main import BlacklistedUsers, AdminList, PinkBotStaff, PinkBotContributors, PinkBotPS
 
 
 class UserInfo(commands.Cog):
@@ -41,6 +41,21 @@ class UserInfo(commands.Cog):
                 embed.add_field(name="PinkBot contributor?:", value="No", inline=True)
             embed.add_field(name="UserID:", value=f"{uid}", inline=False)
             await ctx.send(embed=embed)
+
+    @commands.command(name="serverinfo")
+    async def serverinfo(self, ctx):
+        guild = ctx.guild
+        color = ctx.author.color
+        embed = discord.Embed(colour=color, timestamp=datetime.datetime.utcnow())
+        if guild.icon_url:
+            embed.set_thumbnail(url=guild.icon_url)
+        embed.add_field(name="Server name:", value=guild.name, inline=False)
+        embed.add_field(name="Server id:", value=guild.id, inline=False)
+        embed.add_field(name="Server member count:", value=str(guild.member_count), inline=False)
+        embed.add_field(name="Owner:", value=guild.owner)
+        partnered = 'yes' if guild.id in PinkBotPS else 'no'
+        embed.add_field(name="PinkBot partnered:", value=partnered, inline=False)
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
