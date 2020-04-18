@@ -27,8 +27,12 @@ class HelpCommand(commands.Cog):
                         value=f">rostme \n>coin \n>8ball \n>crab + text \n>dabon @mention the person",
                         inline=False)
         embed.add_field(name="Photo commands:",
-                        value=f"Removed until the photo command works",
+                        value=f"List of all photo tags(also can be used with no tag)",
                         inline=False)
+        embed.add_field(name=">meme", value="pepe \ndoge \nkappa \ndab \nbirb \nfbi \nclap", inline=True)
+        embed.add_field(name=">cute", value="dpg \nkiss \npat \nhug \nfox \nlick \nheadrub \ncat \ntickle", inline=True)
+        embed.add_field(name=">nsfw", value="hentai \nhentai_gif \nneko \nass", inline=True)
+        embed.add_field(name=">wikihow", value="no tags", inline=True)
         embed.add_field(name="Bot prefixes:",
                         value=f"If you want to, you can also just @me or use . as a prefix, insted of >",
                         inline=False)

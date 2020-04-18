@@ -47,7 +47,7 @@ class Meme(commands.Cog):
                 await ctx.send(embed=embed)
 
     @commands.command(name="wikihow")
-    async def wikihow(self, ctx, member: discord.User = None):
+    async def wikihow(self, ctx):
         image = await client.random_wikihow()
         embed = discord.Embed()
         embed.set_image(url=str(image.url))

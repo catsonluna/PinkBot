@@ -4,7 +4,7 @@ import discord.utils
 
 from discord.ext import commands
 
-from main import bot, AdminList
+from main import bot, AdminList, BlacklistedUsers
 
 
 class PrivateCommands(commands.Cog):
@@ -39,7 +39,6 @@ class PrivateCommands(commands.Cog):
                             inline=False)
             await channel.send(embed=embed)
             await channel2.send(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(PrivateCommands(bot))
