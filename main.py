@@ -160,4 +160,4 @@ async def admin(ctx, arg1: str = None, member: discord.User = None):
                 embed.add_field(name="User id:", value=member.id, inline=False)
                 await channel.send(embed=embed)
 
-bot.run(BotToken2, bot=True, reconnect=True)
+bot.run(BotToken, bot=True, reconnect=True)
