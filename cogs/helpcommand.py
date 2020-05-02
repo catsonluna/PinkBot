@@ -15,10 +15,10 @@ class HelpCommand(commands.Cog):
         color = ctx.author.color
         embed = discord.Embed(title='PinkBot help', colour=color, timestamp=datetime.datetime.utcnow())
         embed.add_field(name="Hypixel:",
-                        value=f">hypixel username \n>hypixel username bedwars",
+                        value=f">hypixel username \n>hypixel username bedwars \n>hypixel username duels",
                         inline=False)
         embed.add_field(name="Mod:",
-                        value=f">clean number \n>kick username reason \n>ban username reason",
+                        value=f">clean number",
                         inline=False)
         embed.add_field(name="Useful:",
                         value=f">BotInfo \n>UserInfo \n >suggest and then write the suggestion \n>dm your message here (can be only used in dms with PinkBot, this will send a message to PinkBots staff team) \n>links",

@@ -38,7 +38,7 @@ class HypixelStats(commands.Cog):
             embed.add_field(name="Minecraft version:", value=player['mc_version'], inline=False)
             embed.add_field(name="Last game played:", value=player['last_game'], inline=False)
             await ctx.send(embed=embed)
-            return
+            print(player)
         if arg2 == "bedwars":
             async with aiohttp.ClientSession() as session:
                 async with session.get(f'https://api.slothpixel.me/api/players/{arg1}') as resp:
@@ -70,21 +70,6 @@ class HypixelStats(commands.Cog):
             embed.add_field(name="Melee hits:", value=player["stats"]["Duels"]["melee_hits"], inline=False)
             embed.add_field(name="Best winstreak:", value=player["stats"]["Duels"]["best_overall_winstreak"],
                             inline=False)
-            await ctx.send(embed=embed)
-        if arg2 == "uhc":
-            async with aiohttp.ClientSession() as session:
-                async with session.get(f'https://api.slothpixel.me/api/players/{arg1}') as resp:
-                    player = await resp.json()
-            color = ctx.author.color
-            embed = discord.Embed(title=f'{arg1} Duel stats', colour=color, timestamp=datetime.datetime.utcnow())
-            embed.add_field(name="Score:", value=player["stats"]["UHC"]["score"], inline=False)
-            embed.add_field(name="Wins:", value=player["stats"]["UHC"]["wins"], inline=False)
-            embed.add_field(name="Kills:", value=player["stats"]["UHC"]["kills_solo"], inline=False)
-            embed.add_field(name="Deaths:", value=player["stats"]["UHC"]["deaths_solo"], inline=False)
-            embed.add_field(name="Win/loss:", value=player["stats"]["UHC"]["win_loss"], inline=False)
-            embed.add_field(name="Heads eaten:", value=player["stats"]["UHC"]["heads_eaten"], inline=False)
-            embed.add_field(name="Coins:", value=player["stats"]["UHC"]["coins"], inline=False)
-
             await ctx.send(embed=embed)
 
 

@@ -59,6 +59,43 @@ insults = ['you smell bad',
            "You lewd crude bag of pre-chewed food dude!",
            'bad'
            ]
+ezMsgs = [
+    f"Wait... This isn't what I typed!",
+    "Anyone else really like Rick Astley?",
+    "Hey helper, how play game?",
+    "Sometimes I sing soppy, love songs in the car.",
+    "I like long walks on the beach and talking on this discord server ",
+    "Please go easy on me, this is my first game!",
+    'Please go easy on me, this is my first game!',
+    'Youre a great person! Do you want to talk on discord with me?',
+    'In my free time I like to watch cat videos on Youtube',
+    'When I saw the witch with the potion, I knew there was trouble brewing.',
+    'If the Discord world is infinite, how is the sun spinning around it?',
+    'Hello everyone! I am an innocent player who loves everything Discord.',
+    'Plz give me doggo memes!',
+    'I heard you like Discord, so I built a computer in Discord in your Discord so you can Discord while you Discord',
+    'Why cant the Ender Dragon read a book? Because he always starts at the End.',
+    'Maybe we can have a rematch?',
+    'I sometimes try to say bad things then this happens :(',
+    'Behold, the great and powerful, my magnificent and almighty nemisis!',
+    'Doin a bamboozle fren.',
+    'Your clicks per second are godly.',
+    'What happens if I add chocolate milk to macaroni and cheese?',
+    'Can you paint with all the colors of the wind',
+    'Blue is greener than purple for sure',
+    'I had something to say, then I forgot it.',
+    'When nothing is right, go left.',
+    'I need help, teach me how to play!',
+    'Your personality shines brighter than the sun.',
+    'You are very good at the game friend.',
+    'I like pineapple on my pizza',
+    'I like pasta, do you prefer nachos?',
+    'I like Discord pvp but you are truly better than me!',
+    'I have really enjoyed playing with you! <3',
+    'ILY <3',
+    'Pineapple doesnt go on pizza!',
+    'Lets be friends instead of fighting okay?',
+]
 
 
 class Games(commands.Cog):
@@ -77,7 +114,8 @@ class Games(commands.Cog):
 
     @commands.command()
     async def dabon(self, ctx, member: discord.Member):
-        await ctx.send(f"<:Dab:700667528976007308> {member.mention} <:Dab:700667528976007308> got <:Dab:700667528976007308> dabbed <:Dab:700667528976007308> on <:Dab:700667528976007308>")
+        await ctx.send(
+            f"<:Dab:700667528976007308> {member.mention} <:Dab:700667528976007308> got <:Dab:700667528976007308> dabbed <:Dab:700667528976007308> on <:Dab:700667528976007308>")
 
     @commands.command(aliases=['8ball'])
     async def _8ball(self, ctx, *, question):
@@ -110,6 +148,13 @@ class Games(commands.Cog):
         message = message.split(' ')
         message = ':crab:'.join(message)
         await ctx.send(":crab:" + message + ':crab:')
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        member = message.author
+        if message.content.startswith('ez'):
+            await message.channel.send(f"{member.mention} just said: \n{random.choice(ezMsgs)}")
+            await message.delete()
 
 
 def setup(bot):

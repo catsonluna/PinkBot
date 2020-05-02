@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 
 import discord
@@ -36,9 +37,9 @@ PinkBotPSO = private.get("PinkBotPartnerServerOwners")
 
 def get_prefix(bot, message):
     if message.author.id in AdminList:
-        prefixes = ['pink ']
+        prefixes = ['pinkdev ']
     else:
-        prefixes = ['>', '.']
+        prefixes = []
 
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
@@ -54,7 +55,8 @@ initial_extensions = [
     'cogs.helpcommand',
     'cogs.pinkbotserver',
     'cogs.games',
-    'cogs.partnerThings'
+    'cogs.partnerThings',
+    'cogs.countries'
 ]
 
 bot = commands.Bot(command_prefix=get_prefix, description='yes')
@@ -65,13 +67,25 @@ for extension in initial_extensions:
 bot.load_extension("jishaku")
 
 
+async def status_task():
+    while True:
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game('>help to get started'))
+        await asyncio.sleep(10)
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game("watching over " + str(len(bot.guilds)) + " guilds"))
+        await asyncio.sleep(10)
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game("watching over " + str(len(bot.users)) + " users"))
+        await asyncio.sleep(10)
+
+
 @bot.event
 async def on_ready():
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game('>help to get started'))
     print(f'Y-you tu-urned mwe on successfully daddy uwu, im looking at')
     print(bot.cogs)
+    print("Guilds im in:")
     print(len(bot.guilds))
-
+    print("People im watching over:")
+    print(len(bot.users))
+    bot.loop.create_task(status_task())
 
 @bot.event
 async def on_member_join(member):
@@ -82,10 +96,11 @@ async def on_member_join(member):
 
 
 @bot.command()
-async def staff(ctx, arg1: str = None, member: discord.User = None):
+async def pStaff(ctx, arg1: str = None, member: discord.User = None):
     if ctx.author.id in PinkBotStaff:
         if arg1 is None:
-            await ctx.send("please choose an action \nBan (puts a PinkBot blacklist on the person) \nunban (removes a PinkBot blacklist on the person)")
+            await ctx.send(
+                "please choose an action \nBan (puts a PinkBot blacklist on the person) \nunban (removes a PinkBot blacklist on the person)")
         elif arg1 == "ban":
             with open('./private.json', 'w') as file:
                 BlacklistedUsers.append(member.id)
@@ -111,10 +126,11 @@ async def staff(ctx, arg1: str = None, member: discord.User = None):
 
 
 @bot.command()
-async def admin(ctx, arg1: str = None, member: discord.User = None):
+async def pAdmin(ctx, arg1: str = None, member: discord.User = None):
     if ctx.author.id in PinkBotStaff:
         if arg1 is None:
-            await ctx.send("Available PinkBot admin commands \nstaff (add the person as a PinkBot staff) \nunstaff (removes somones PinkBot staff) \npso (adds a server partner) \npsor (removes a server partner)")
+            await ctx.send(
+                "Available PinkBot admin commands \nstaff (add the person as a PinkBot staff) \nunstaff (removes somones PinkBot staff) \npso (adds a server partner) \npsor (removes a server partner)")
         elif arg1 == "staff":
             with open('./private.json', 'w') as file:
                 PinkBotStaff.append(member.id)
@@ -160,4 +176,5 @@ async def admin(ctx, arg1: str = None, member: discord.User = None):
                 embed.add_field(name="User id:", value=member.id, inline=False)
                 await channel.send(embed=embed)
 
-bot.run(BotToken, bot=True, reconnect=True)
+
+bot.run(BotToken2, bot=True, reconnect=True)
