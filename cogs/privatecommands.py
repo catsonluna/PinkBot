@@ -1,10 +1,11 @@
 import datetime
+import json
 
 import discord.utils
 
 from discord.ext import commands
 
-from main import bot, AdminList, BlacklistedUsers
+from main import bot, AdminList, BlacklistedUsers, PinkBotPSO, private, PinkBotStaff, PinkBotPS
 
 
 class PrivateCommands(commands.Cog):
@@ -39,6 +40,88 @@ class PrivateCommands(commands.Cog):
                             inline=False)
             await channel.send(embed=embed)
             await channel2.send(embed=embed)
+
+    @commands.command()
+    async def pStaff(self, ctx, arg1: str = None, member: discord.User = None):
+        if ctx.author.id in PinkBotStaff:
+            if arg1 is None:
+                await ctx.send(
+                    "please choose an action \nBan (puts a PinkBot blacklist on the person) \nunban (removes a PinkBot blacklist on the person)")
+            elif arg1 == "ban":
+                with open('./private.json', 'w') as file:
+                    BlacklistedUsers.append(member.id)
+                    json.dump(private, file, indent=4)
+                    await ctx.send(f"{ctx.author} has banned {member}")
+                    channel = bot.get_channel(698923439729279016)
+                    embed = discord.Embed(colour=0xfb0006, timestamp=datetime.datetime.utcnow())
+                    embed.add_field(name=f"Banned by:", value=ctx.author, inline=False)
+                    embed.add_field(name="User banned:", value=f"{member}", inline=False)
+                    embed.add_field(name="User id:", value=member.id, inline=False)
+                    await channel.send(embed=embed)
+            elif arg1 == "unban":
+                with open('./private.json', 'w') as file:
+                    BlacklistedUsers.remove(member.id)
+                    json.dump(private, file, indent=4)
+                    await ctx.send(f"{ctx.author} has unbanned {member}")
+                    channel = bot.get_channel(698923439729279016)
+                    embed = discord.Embed(colour=0x00fb52, timestamp=datetime.datetime.utcnow())
+                    embed.add_field(name=f"Unbanned by:", value=ctx.author, inline=False)
+                    embed.add_field(name="User unbanned:", value=f"{member}", inline=False)
+                    embed.add_field(name="User id:", value=member.id, inline=False)
+                    await channel.send(embed=embed)
+
+    @commands.command()
+    async def pAdmin(self, ctx, arg1: str = None, member: discord.User = None):
+        if ctx.author.id in PinkBotStaff:
+            if arg1 is None:
+                await ctx.send(
+                    "Available PinkBot admin commands \nstaff (add the person as a PinkBot staff) \nunstaff (removes somones PinkBot staff) \npso (adds a server partner) \npsor (removes a server partner)")
+            elif arg1 == "staff":
+                with open('./private.json', 'w') as file:
+                    PinkBotStaff.append(member.id)
+                    json.dump(private, file, indent=4)
+                    await ctx.send(f"{ctx.author} has made {member} staff")
+                    channel = bot.get_channel(698923439729279016)
+                    embed = discord.Embed(colour=0x56fed8, timestamp=datetime.datetime.utcnow())
+                    embed.add_field(name=f"Admin:", value=ctx.author, inline=False)
+                    embed.add_field(name="User made staff:", value=f"{member}", inline=False)
+                    embed.add_field(name="User id:", value=member.id, inline=False)
+                    await channel.send(embed=embed)
+            elif arg1 == "unstaff":
+                with open('./private.json', 'w') as file:
+                    PinkBotStaff.remove(member.id)
+                    json.dump(private, file, indent=4)
+                    await ctx.send(f"{ctx.author} has removed {member} staff")
+                    channel = bot.get_channel(698923439729279016)
+                    embed = discord.Embed(colour=0xaa0004, timestamp=datetime.datetime.utcnow())
+                    embed.add_field(name=f"Admin:", value=ctx.author, inline=False)
+                    embed.add_field(name="User removed staff:", value=f"{member}", inline=False)
+                    embed.add_field(name="User id:", value=member.id, inline=False)
+                    await channel.send(embed=embed)
+            if arg1 == "pso":
+                with open('./private.json', 'w') as file:
+                    PinkBotPSO.append(member.id)
+                    json.dump(private, file, indent=4)
+                    await ctx.send(f"{ctx.author} has made {member} a PinkBot partner")
+                    channel = bot.get_channel(698923439729279016)
+                    embed = discord.Embed(colour=0xff8b77, timestamp=datetime.datetime.utcnow())
+                    embed.add_field(name=f"Admin:", value=ctx.author, inline=False)
+                    embed.add_field(name="User made partner:", value=f"{member}", inline=False)
+                    embed.add_field(name="User id:", value=member.id, inline=False)
+                    await channel.send(embed=embed)
+            elif arg1 == "psor":
+                with open('./private.json', 'w') as file:
+                    PinkBotPSO.remove(member.id)
+                    json.dump(private, file, indent=4)
+                    await ctx.send(f"{ctx.author} has removed {member} from being a PinkBot partner")
+                    channel = bot.get_channel(698923439729279016)
+                    embed = discord.Embed(colour=0x3f4678, timestamp=datetime.datetime.utcnow())
+                    embed.add_field(name=f"Admin:", value=ctx.author, inline=False)
+                    embed.add_field(name="Users partner removed:", value=f"{member}", inline=False)
+                    embed.add_field(name="User id:", value=member.id, inline=False)
+                    await channel.send(embed=embed)
+
+
 
 def setup(bot):
     bot.add_cog(PrivateCommands(bot))

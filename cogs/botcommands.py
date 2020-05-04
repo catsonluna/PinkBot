@@ -9,10 +9,10 @@ from discord.ext import commands
 from main import bot, BlacklistedUsers, PinkBotPS
 
 
-class BotInfo(commands.Cog):
+class BotCommands(commands.Cog):
 
-    def __init__(self, botc):
-        self.bot = botc
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command(name="botinfo")
     async def botinfo(self, ctx):
@@ -62,9 +62,10 @@ class BotInfo(commands.Cog):
                         f"Hello {member.mention}, your suggestion `{message}` has been approved to go on the main bord https://discord.gg/TUkcgWt where people can vote on your idea!")
                 elif reaction.emoji == "\U0001F44E":
                     await dm.send(
-                       f"Hello {member}, your suggestion `{message}` wasnt approved, this can be do to:\n1 your suggestion was spam/wasnt real \n2 This feature is already in the bot \n3 the reason is something else and you will get a dm from pinkbot staff within 10 minutes \nif you have any questions you can ask them in the support server https://discord.gg/TUkcgWt")
+                        f"Hello {member}, your suggestion `{message}` wasnt approved, this can be do to:\n1 your suggestion was spam/wasnt real \n2 This feature is already in the bot \n3 the reason is something else and you will get a dm from pinkbot staff within 10 minutes \nif you have any questions you can ask them in the support server https://discord.gg/TUkcgWt")
                 elif reaction.emoji == "\u2705":
-                    await dm.send(f'wow {member.mention}, what a grate suggestion `{message}`, in fact, it was so grate it was auto approved, yup its going in PinkBot without the public vote')
+                    await dm.send(
+                        f'wow {member.mention}, what a grate suggestion `{message}`, in fact, it was so grate it was auto approved, yup its going in PinkBot without the public vote')
             except asyncio.TimeoutError:
                 await ctx.send(f"Suggestion: `{message}` by {member.mention} wasnt approved in time")
                 await dm.send(f"Your suggestion `{message}` wast approved in time")
@@ -86,28 +87,21 @@ class BotInfo(commands.Cog):
             await ctx.send(
                 "Your dm has been sent and will be proceed soon, remember, abuse of this or any other system could get you banned from doing these commands, dms and suggestions are monitored by PinkBots staff team")
 
-    @commands.command(name="links")
-    async def links(self, ctx):
-        color = ctx.author.color
-        embed = discord.Embed(title='PinkBot liks', colour=color, timestamp=datetime.datetime.utcnow())
-        embed.add_field(name="Support server:", value=f"[here](https://discord.gg/TUkcgWt)", inline=False)
-        embed.add_field(name="Invite the bot to your server:",
-                        value=f"[here](https://discordapp.com/api/oauth2/authorize?client_id=697887266307047424&permissions=8&scope=bot)",
-                        inline=False)
-        embed.add_field(name="GitHub:", value="[here](https://github.com/pinkulu/pinkbot)", inline=False)
-        await ctx.send(embed=embed)
-
     @commands.command(name="partner")
     async def partner(self, ctx):
         guild = ctx.guild
         color = ctx.author.color
         embed = discord.Embed(title='PinkBot partner info', colour=color, timestamp=datetime.datetime.utcnow())
-        embed.add_field(name="Info:", value=f"PinkBot partner server is a server that gets some advantages from PinkBot, if you want to be a PinkBot partner server join the discord here and dm me or something like that so we can discus it [here](https://discord.gg/TUkcgWt)", inline=False)
-        embed.add_field(name="Advantages:", value=f"at the moment there are no advantages, but there's gonna be some soon ;)", inline=False)
+        embed.add_field(name="Info:",
+                        value=f"PinkBot partner server is a server that gets some advantages from PinkBot, if you want to be a PinkBot partner server join the discord here and dm me or something like that so we can discus it [here](https://discord.gg/TUkcgWt)",
+                        inline=False)
+        embed.add_field(name="Advantages:",
+                        value=f"at the moment there are no advantages, but there's gonna be some soon ;)", inline=False)
         partnered = 'This server is a PinkBot partner' if guild.id in PinkBotPS else 'This server isnt a PinkBot partner'
         embed.add_field(name="This server:", value=partnered, inline=False)
 
         await ctx.send(embed=embed)
 
+
 def setup(bot):
-    bot.add_cog(BotInfo(bot))
+    bot.add_cog(BotCommands(bot))

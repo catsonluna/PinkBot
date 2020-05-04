@@ -103,7 +103,7 @@ class Games(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def rostme(self, ctx):
+    async def roastme(self, ctx):
         await ctx.send(random.choice(insults))
 
     @commands.command()
@@ -153,8 +153,8 @@ class Games(commands.Cog):
     async def on_message(self, message):
         member = message.author
         if message.content.startswith('ez'):
-            await message.channel.send(f"{member.mention} just said: \n{random.choice(ezMsgs)}")
             await message.delete()
+            await message.channel.send(f"{member.mention} just said: \n{random.choice(ezMsgs)}")
 
 
 def setup(bot):
