@@ -14,7 +14,7 @@ class HelpCommand(commands.Cog):
     async def help(self, ctx):
         color = ctx.author.color
         embed = discord.Embed(title='PinkBot help', colour=color, timestamp=datetime.datetime.utcnow())
-        embed.add_field(name="Links:", value=f"[Commands](https://pinkbot.pinkulu.com) "
+        embed.add_field(name="Links:", value=f"[Commands](https://docs.pinkbot.xyz/) "
                                              f"\n[Support server](https://discord.gg/TUkcgWt) "
                                              f"\n[Invite the bot](https://discordapp.com/api/oauth2/authorize?client_id=697887266307047424&permissions=8&scope=bot)"
                                              f"\n[Github](https://github.com/pinkulu/pinkbot)"
