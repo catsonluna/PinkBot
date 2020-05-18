@@ -1,9 +1,21 @@
 import datetime
 import discord
+import pymysql
 
 from discord.ext import commands
 
 from main import PinkBotPSC, BlacklistedUsers
+
+db = pymysql.connect("localhost", "root", "", "pinkbot")
+cursor = db.cursor()
+sqlget = "SELECT * FROM `partnerchats"
+# Execute the SQL command
+cursor.execute(sqlget)
+# Fetch all the rows in a list of lists.
+results = cursor.fetchall()
+row = results
+serverID = row[0]
+chatID = row[1]
 
 
 class Partner(commands.Cog):
@@ -12,9 +24,14 @@ class Partner(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
+    async def on_ready(self):
+        print(str(chatID))
+        print(str(serverID))
+
+    @commands.Cog.listener()
     async def on_message(self, message):
-        if message.channel.id in PinkBotPSC:
-            for channel_id in PinkBotPSC:
+        if message.channel.id in chatID:
+            for channel_id in chatID:
                 if channel_id != message.channel.id:
                     if message.author.bot:
                         return

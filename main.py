@@ -1,6 +1,6 @@
 import asyncio
-import datetime
 
+import asyncpg
 import discord
 import discord.utils
 import json
@@ -30,22 +30,13 @@ PinkBotPSC = private.get("PinkBotPartnerChats")
 
 PinkBotPSO = private.get("PinkBotPartnerServerOwners")
 
-
 KSoft_api = keys.get("KSoft_api")
 
 BotToken = keys.get("BotToken")
 
 BotToken2 = keys.get("BotToken2")
 
-
-def get_prefix(bot, message):
-    if message.author.id in AdminList:
-        prefixes = ['pinkdev ']
-    else:
-        prefixes = []
-
-    return commands.when_mentioned_or(*prefixes)(bot, message)
-
+dbpass = keys.get("dbpass")
 
 initial_extensions = [
     'cogs.botcommands',
@@ -56,11 +47,16 @@ initial_extensions = [
     'cogs.info',
     'cogs.photo',
     'cogs.helpcommand',
-    'cogs.pinkbotserver',
     'cogs.games',
-    'cogs.partnerThings',
+    'cogs.level',
     'cogs.countries'
 ]
+
+
+async def get_prefix(bot, message):
+    prefixes = ["pink", '>', "."]
+    return commands.when_mentioned_or(*prefixes)(bot, message)
+
 
 bot = commands.Bot(command_prefix=get_prefix, description='yes', case_insensitive=True)
 bot.remove_command("help")
@@ -68,6 +64,11 @@ for extension in initial_extensions:
     bot.load_extension(extension)
 
 bot.load_extension("jishaku")
+
+
+async def create_db_pool():
+    bot.pg_con = await asyncpg.create_pool(host='144.172.71.88', port='5432', database="pinkbot", user="pinkulu",
+                                           password=dbpass)
 
 
 async def status_task():
@@ -93,12 +94,5 @@ async def on_ready():
     bot.loop.create_task(status_task())
 
 
-@bot.event
-async def on_member_join(member):
-    g = member.guild.id
-    channel = bot.get_channel(681911212740575297)
-    if g == 681561708052873358:
-        await channel.send(f"Welcome {member.mention} to PinkBots support server, check out the info channel")
-
-
+bot.loop.run_until_complete(create_db_pool())
 bot.run(BotToken2, bot=True, reconnect=True)

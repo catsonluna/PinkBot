@@ -149,6 +149,15 @@ class Games(commands.Cog):
         message = ':crab:'.join(message)
         await ctx.send(":crab:" + message + ':crab:')
 
+    @commands.command(name='random', aliases=['number', 'randomnumber'])
+    async def random(self, ctx, arg1: int = None, arg2: int = None,):
+        if arg1 is None:
+            await ctx.send("enter min number")
+        elif arg2 is None:
+            await ctx.send("enter max number")
+        else:
+            await ctx.send(random.randint(arg1, arg2))
+
     @commands.Cog.listener()
     async def on_message(self, message):
         member = message.author

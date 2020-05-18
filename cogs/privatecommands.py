@@ -5,7 +5,7 @@ import discord.utils
 
 from discord.ext import commands
 
-from main import bot, AdminList, BlacklistedUsers, PinkBotPSO, private, PinkBotStaff, PinkBotPS
+from main import bot, AdminList, BlacklistedUsers, PinkBotPSO, private, PinkBotStaff
 
 
 class PrivateCommands(commands.Cog):
@@ -120,7 +120,19 @@ class PrivateCommands(commands.Cog):
                     embed.add_field(name="Users partner removed:", value=f"{member}", inline=False)
                     embed.add_field(name="User id:", value=member.id, inline=False)
                     await channel.send(embed=embed)
-
+            elif arg1 == "lvl clear:":
+                author_id = str(ctx.author.id)
+                user = await self.bot.pg_con.fetchrow("SELECT * FROM users WHERE user_id = $1", author_id)
+                if user["dm"] == 1:
+                    await self.bot.pg_con.execute("UPDATE users SET dm = $1 WHERE user_id = $2",
+                                                  user["dm"] - 1,
+                                                  author_id)
+                    await ctx.send("Level up dms have been disabled")
+                elif user["dm"] == 0:
+                    await self.bot.pg_con.execute("UPDATE users SET dm = $1 WHERE user_id = $2",
+                                                  user["dm"] + 1,
+                                                  author_id)
+                    await ctx.send("Level up dms have been enabled")
 
 
 def setup(bot):

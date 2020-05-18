@@ -102,6 +102,20 @@ class BotCommands(commands.Cog):
 
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def setPrefix(self, ctx, arg1: str = None):
+        guild_id = str(ctx.guild.id)
+
+        user = await self.bot.pg_con.fetch("SELECT * FROM prefix WHERE guild_id = $1", guild_id)
+
+        if not user:
+            await self.bot.pg_con.execute("INSERT INTO prefix (guild_id, prefix) VALUES ($1, $2)",
+                                          guild_id, arg1)
+        else:
+            await self.bot.pg_con.execute("UPDATE users SET prefix = $1 WHERE guild_id = $2",
+                                          arg1,
+                                          guild_id)
+
 
 def setup(bot):
     bot.add_cog(BotCommands(bot))
