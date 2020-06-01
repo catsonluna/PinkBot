@@ -67,7 +67,7 @@ bot.load_extension("jishaku")
 
 
 async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(host='144.172.71.88', port='5432', database="pinkbot", user="pinkulu",
+    bot.pg_con = await asyncpg.create_pool(database="pinkbot", user="pinkulu",
                                            password=dbpass)
 
 
